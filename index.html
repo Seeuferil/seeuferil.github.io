@@ -7,15 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --border: #1e1e1e;
-    --border-light: #2a2a2a;
-    --text: #e8e8e8;
-    --muted: #666;
-    --accent: #c8ff3e;
-    --accent2: #3effc8;
-    --label: #999;
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --border: #d8d5cc;
+    --border-light: #c4c0b5;
+    --text: #1a1a1a;
+    --muted: #888;
+    --accent: #2563eb;
+    --accent2: #0891b2;
+    --label: #555;
     --mono: 'DM Mono', monospace;
     --sans: 'Syne', sans-serif;
   }
@@ -28,15 +28,6 @@
     font-size: 14px;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
   }
   .page { max-width: 860px; margin: 0 auto; padding: 80px 40px 120px; }
   header {
@@ -63,12 +54,12 @@
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.02em;
-    color: #fff;
+    color: #111;
     margin-bottom: 16px;
   }
   h1 span { color: var(--accent); }
   .subtitle { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-bottom: 24px; }
-  .about { font-family: var(--mono); font-size: 14px; color: #aaa; max-width: 580px; line-height: 1.8; margin-bottom: 28px; }
+  .about { font-family: var(--mono); font-size: 14px; color: #555; max-width: 580px; line-height: 1.8; margin-bottom: 28px; }
   .github-link {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--mono); font-size: 12px; color: var(--accent2);
@@ -103,7 +94,7 @@
     display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
   }
   .project-title-block { flex: 1; }
-  .project-name { font-family: var(--sans); font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .project-name { font-family: var(--sans); font-size: 16px; font-weight: 700; color: #111; letter-spacing: -0.01em; margin-bottom: 4px; }
   .project-desc { font-family: var(--mono); font-size: 12px; color: var(--muted); line-height: 1.5; }
   .project-toggle { font-size: 11px; color: var(--muted); flex-shrink: 0; margin-top: 2px; transition: transform 0.2s, color 0.2s; }
   .project.open .project-toggle { transform: rotate(180deg); color: var(--accent); }
@@ -117,7 +108,7 @@
     width: 100px; color: var(--muted); font-size: 11px;
     letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; padding-right: 16px;
   }
-  .spec-table td:last-child { color: #bbb; }
+  .spec-table td:last-child { color: #333; }
   .spec-table a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
   .spec-table a:hover { border-bottom-color: var(--accent2); }
   .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
@@ -125,7 +116,7 @@
   .skill-row:hover { border-color: var(--border-light); }
   .skill-category { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
   .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .skill-tag { font-size: 11px; color: #bbb; background: #161616; border: 1px solid var(--border); padding: 2px 8px; border-radius: 2px; }
+  .skill-tag { font-size: 11px; color: #444; background: #ece9e2; border: 1px solid var(--border); padding: 2px 8px; border-radius: 2px; }
   footer { border-top: 1px solid var(--border); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   @media (max-width: 600px) {
