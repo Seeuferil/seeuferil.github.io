@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Seeuferil</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --border-light: #2a2a2a;
+    --text: #e8e8e8;
+    --muted: #666;
+    --accent: #c8ff3e;
+    --accent2: #3effc8;
+    --label: #999;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+  .page { max-width: 860px; margin: 0 auto; padding: 80px 40px 120px; }
+  header {
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 48px;
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 10px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  h1 span { color: var(--accent); }
+  .subtitle { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .about { font-family: var(--mono); font-size: 14px; color: #aaa; max-width: 580px; line-height: 1.8; margin-bottom: 28px; }
+  .github-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 12px; color: var(--accent2);
+    text-decoration: none; letter-spacing: 0.05em;
+    border-bottom: 1px solid transparent; transition: border-color 0.2s;
+  }
+  .github-link:hover { border-bottom-color: var(--accent2); }
+  .github-link::before { content: '→'; }
+  section { margin-bottom: 72px; animation: fadeUp 0.6s ease both; }
+  section:nth-child(2) { animation-delay: 0.1s; }
+  section:nth-child(3) { animation-delay: 0.2s; }
+  .section-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 32px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .project {
+    border: 1px solid var(--border); margin-bottom: 2px;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .project:hover { border-color: var(--border-light); background: #111; }
+  .project::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: var(--accent); transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.3s ease;
+  }
+  .project:hover::before { transform: scaleY(1); }
+  .project-header {
+    padding: 20px 24px 16px; cursor: pointer;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .project-title-block { flex: 1; }
+  .project-name { font-family: var(--sans); font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .project-desc { font-family: var(--mono); font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .project-toggle { font-size: 11px; color: var(--muted); flex-shrink: 0; margin-top: 2px; transition: transform 0.2s, color 0.2s; }
+  .project.open .project-toggle { transform: rotate(180deg); color: var(--accent); }
+  .project-body { display: none; border-top: 1px solid var(--border); }
+  .project.open .project-body { display: block; }
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table tr { border-bottom: 1px solid var(--border); }
+  .spec-table tr:last-child { border-bottom: none; }
+  .spec-table td { padding: 10px 24px; font-size: 12px; vertical-align: top; }
+  .spec-table td:first-child {
+    width: 100px; color: var(--muted); font-size: 11px;
+    letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; padding-right: 16px;
+  }
+  .spec-table td:last-child { color: #bbb; }
+  .spec-table a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  .spec-table a:hover { border-bottom-color: var(--accent2); }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .skill-row { border: 1px solid var(--border); padding: 14px 20px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.2s; }
+  .skill-row:hover { border-color: var(--border-light); }
+  .skill-category { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-tag { font-size: 11px; color: #bbb; background: #161616; border: 1px solid var(--border); padding: 2px 8px; border-radius: 2px; }
+  footer { border-top: 1px solid var(--border); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 600px) {
+    .page { padding: 48px 20px 80px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
+  @media print {
+    body { background: #fff; color: #111; }
+    body::before { display: none; }
+    .project { border-color: #ddd; break-inside: avoid; }
+    .project-body { display: block !important; }
+    .project-toggle { display: none; }
+    .project::before { display: none; }
+    header, section { animation: none; }
+    a { color: #0066cc; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="tag">Portfolio · 2026</div>
+    <h1>Seeuferil<span>.</span></h1>
+    <p class="subtitle">Independent Developer · AI Automation · Multi-Agent Systems · SaaS</p>
+    <p class="about">
+      Solo developer building production-deployed AI systems, automation pipelines, and full-stack SaaS products.
+      Specializing in multi-agent orchestration, LLM cost optimization, and cloud-native deployments on Railway + Vercel.
+    </p>
+    <a class="github-link" href="https://github.com/Seeuferil" target="_blank">github.com/Seeuferil</a>
+  </header>
+  <section>
+    <div class="section-label">Projects</div>
+    <div class="project open">
+      <div class="project-header" onclick="toggle(this)">
+        <div class="project-title-block">
+          <div class="project-name">MaxTrans</div>
+          <div class="project-desc">AI document translation SaaS — subscription + token billing model</div>
+        </div>
+        <span class="project-toggle">▼</span>
+      </div>
+      <div class="project-body">
+        <table class="spec-table">
+          <tr><td>Stack</td><td>Node.js · React 19 · tRPC · Drizzle ORM · Better Auth · MySQL · Stripe</td></tr>
+          <tr><td>Infra</td><td>Railway (backend/DB) · Vercel (frontend) · Cloudflare R2 (storage)</td></tr>
+          <tr><td>Features</td><td>PDF/DOCX upload · AI translation (EN↔KR) · Subscription billing · Token metering · User dashboard</td></tr>
+          <tr><td>Live</td><td><a href="https://maxtrans-production.up.railway.app" target="_blank">maxtrans-production.up.railway.app</a></td></tr>
+          <tr><td>GitHub</td><td><a href="https://github.com/Seeuferil/MaxTrans" target="_blank">Seeuferil/MaxTrans</a></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="project">
+      <div class="project-header" onclick="toggle(this)">
+        <div class="project-title-block">
+          <div class="project-name">Multi-Agent Framework</div>
+          <div class="project-desc">Orchestrator–subagent pipeline · 40–55% AI token cost reduction</div>
+        </div>
+        <span class="project-toggle">▼</span>
+      </div>
+      <div class="project-body">
+        <table class="spec-table">
+          <tr><td>Stack</td><td>Python · FastAPI · Claude API · Gemini CLI · Ollama · Railway</td></tr>
+          <tr><td>Features</td><td>Agent routing · Task decomposition · Local LLM integration (Ollama) · REST API</td></tr>
+          <tr><td>Result</td><td>Claude token usage reduced 40–55% via intelligent model routing</td></tr>
+          <tr><td>Live</td><td><a href="https://railway.com/project/9446c2c5-2bbd-4db4-b8c8-22e12ffa980f" target="_blank">Railway</a></td></tr>
+          <tr><td>GitHub</td><td><a href="https://github.com/Seeuferil/my-agent-framework" target="_blank">Seeuferil/my-agent-framework</a></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="project">
+      <div class="project-header" onclick="toggle(this)">
+        <div class="project-title-block">
+          <div class="project-name">GemWriter</div>
+          <div class="project-desc">Slack AI writing bot — dual-LLM content generation</div>
+        </div>
+        <span class="project-toggle">▼</span>
+      </div>
+      <div class="project-body">
+        <table class="spec-table">
+          <tr><td>Stack</td><td>Node.js · Claude API · Gemini · GitHub Actions</td></tr>
+          <tr><td>Features</td><td>Slack slash commands · Dual-LLM routing (Claude + Gemini) · Automated content drafts · CI/CD via GitHub Actions</td></tr>
+          <tr><td>Deploy</td><td>Internal Slack workspace</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="project">
+      <div class="project-header" onclick="toggle(this)">
+        <div class="project-title-block">
+          <div class="project-name">FlightWatch</div>
+          <div class="project-desc">Automated flight data collection & visualization dashboard</div>
+        </div>
+        <span class="project-toggle">▼</span>
+      </div>
+      <div class="project-body">
+        <table class="spec-table">
+          <tr><td>Stack</td><td>Node.js · Next.js · PostgreSQL · GitHub Actions</td></tr>
+          <tr><td>Features</td><td>Scheduled data ingestion · Real-time dashboard · Automated pipeline</td></tr>
+          <tr><td>Live</td><td><a href="https://flight-data-red.vercel.app" target="_blank">flight-data-red.vercel.app</a></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="project">
+      <div class="project-header" onclick="toggle(this)">
+        <div class="project-title-block">
+          <div class="project-name">USum</div>
+          <div class="project-desc">URL content summarization REST API</div>
+        </div>
+        <span class="project-toggle">▼</span>
+      </div>
+      <div class="project-body">
+        <table class="spec-table">
+          <tr><td>Stack</td><td>Python · FastAPI · Gemini API · Railway</td></tr>
+          <tr><td>Features</td><td>URL fetch · AI summarization · REST API endpoints</td></tr>
+          <tr><td>Live</td><td><a href="https://usum-production.up.railway.app" target="_blank">usum-production.up.railway.app</a></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="project">
+      <div class="project-header" onclick="toggle(this)">
+        <div class="project-title-block">
+          <div class="project-name">Subway Tracker</div>
+          <div class="project-desc">Real-time transit data tracker with live dashboard</div>
+        </div>
+        <span class="project-toggle">▼</span>
+      </div>
+      <div class="project-body">
+        <table class="spec-table">
+          <tr><td>Stack</td><td>Next.js · TypeScript · PostgreSQL · Railway · Vercel</td></tr>
+          <tr><td>Features</td><td>Real-time data feed · Live dashboard UI · Full-stack TypeScript</td></tr>
+          <tr><td>Live</td><td><a href="https://subway-tracker-bay.vercel.app" target="_blank">subway-tracker-bay.vercel.app</a></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="project">
+      <div class="project-header" onclick="toggle(this)">
+        <div class="project-title-block">
+          <div class="project-name">Email Deliverability Checker</div>
+          <div class="project-desc">Automated deliverability audit tool with Notion reporting</div>
+        </div>
+        <span class="project-toggle">▼</span>
+      </div>
+      <div class="project-body">
+        <table class="spec-table">
+          <tr><td>Stack</td><td>Python · Notion API</td></tr>
+          <tr><td>Features</td><td>Automated audit pipeline · Notion integration for reporting · Complete</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="section-label">Skills</div>
+    <div class="skills-grid">
+      <div class="skill-row"><span class="skill-category">Languages</span><div class="skill-tags"><span class="skill-tag">TypeScript</span><span class="skill-tag">Python</span><span class="skill-tag">Node.js</span></div></div>
+      <div class="skill-row"><span class="skill-category">Frontend</span><div class="skill-tags"><span class="skill-tag">React 19</span><span class="skill-tag">Next.js</span><span class="skill-tag">Vite</span></div></div>
+      <div class="skill-row"><span class="skill-category">Backend</span><div class="skill-tags"><span class="skill-tag">Express.js</span><span class="skill-tag">FastAPI</span><span class="skill-tag">tRPC</span></div></div>
+      <div class="skill-row"><span class="skill-category">Database</span><div class="skill-tags"><span class="skill-tag">MySQL</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">Drizzle ORM</span></div></div>
+      <div class="skill-row"><span class="skill-category">AI / LLM</span><div class="skill-tags"><span class="skill-tag">Claude API</span><span class="skill-tag">Gemini API</span><span class="skill-tag">Ollama</span></div></div>
+      <div class="skill-row"><span class="skill-category">Infra</span><div class="skill-tags"><span class="skill-tag">Railway</span><span class="skill-tag">Vercel</span><span class="skill-tag">Cloudflare R2</span><span class="skill-tag">GitHub Actions</span></div></div>
+      <div class="skill-row"><span class="skill-category">Billing / Auth</span><div class="skill-tags"><span class="skill-tag">Stripe</span><span class="skill-tag">Better Auth</span></div></div>
+    </div>
+  </section>
+  <footer>
+    <span>Seeuferil · 2026</span>
+    <a class="github-link" href="https://github.com/Seeuferil" target="_blank">github.com/Seeuferil</a>
+  </footer>
+</div>
+<script>
+  function toggle(header) {
+    const project = header.closest('.project');
+    project.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
