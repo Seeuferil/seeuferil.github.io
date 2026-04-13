@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — Seeufer</title>
+<title>Portfolio — HCB</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -240,6 +240,30 @@
     border-radius: 3px;
   }
 
+  /* ── Lang toggle ── */
+  .lang-toggle {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted-dark);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    user-select: none;
+  }
+  .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── i18n visibility ── */
+  body.lang-en .t-ko,
+  body.lang-ko .t-en { display: none !important; }
+
   /* ── Footer ── */
   footer {
     border-top: 1px solid var(--border);
@@ -277,16 +301,24 @@
   }
 </style>
 </head>
-<body>
+<body class="lang-en">
+<button class="lang-toggle" onclick="toggleLang()">KR</button>
 <div class="page">
 
   <header>
     <div class="tag">Portfolio · 2026</div>
-    <h1>Seeufer<span>.</span></h1>
-    <p class="subtitle">Independent Developer · AI Automation · Multi-Agent Systems · SaaS</p>
-    <p class="about">
-      Solo developer building production-deployed AI systems, automation pipelines, and full-stack SaaS products.
-      Specializing in multi-agent orchestration, LLM cost optimization, and cloud-native deployments.
+    <h1>HCB<span>.</span></h1>
+    <p class="subtitle t-en">Full-Stack Developer · AI Automation · SaaS Builder · Ship Fast, Ship Right</p>
+    <p class="subtitle t-ko">풀스택 개발자 · AI 자동화 · SaaS 빌더 · 빠르게, 제대로</p>
+    <p class="about t-en">
+      I build and deploy production-grade web apps, AI-powered automation, and SaaS products end-to-end — from database schema to payment integration.
+      Need an MVP shipped in weeks, not months? I've launched multiple live products solo, handling everything from React/Next.js frontends to Node.js/Python backends, Stripe billing, and cloud deployment (Railway, Vercel).
+      I specialize in integrating LLMs (Claude, Gemini) into real workflows — not toy demos — with proven 40–55% cost reduction through intelligent model routing.
+    </p>
+    <p class="about t-ko">
+      DB 설계부터 결제 연동까지, 프로덕션 수준의 웹앱·AI 자동화·SaaS 제품을 혼자서 기획-개발-배포합니다.
+      MVP를 몇 달이 아닌 몇 주 안에 출시해야 할 때 — React/Next.js 프론트엔드, Node.js/Python 백엔드, Stripe 결제, 클라우드 배포(Railway, Vercel)까지 전 과정을 직접 처리합니다.
+      LLM(Claude, Gemini)을 실제 워크플로우에 통합하는 것이 전문 분야이며, 지능형 모델 라우팅으로 AI 토큰 비용 40–55% 절감을 달성한 실적이 있습니다.
     </p>
     <div class="header-links">
       <a class="link-pill" href="https://github.com/Seeuferil" target="_blank">github.com/Seeuferil</a>
@@ -294,7 +326,8 @@
   </header>
 
   <section>
-    <div class="section-label">Projects</div>
+    <div class="section-label t-en">Projects</div>
+    <div class="section-label t-ko">프로젝트</div>
     <div class="projects">
 
       <div class="project featured open">
@@ -307,7 +340,8 @@
                 <span class="badge-live">Live</span>
                 <span class="badge-featured">Featured</span>
               </div>
-              <div class="project-desc">AI document translation SaaS — subscription + token billing</div>
+              <div class="project-desc t-en">AI document translation SaaS — subscription + token billing</div>
+              <div class="project-desc t-ko">AI 문서 번역 SaaS — 구독 + 토큰 과금</div>
             </div>
           </div>
           <div class="project-toggle">▼</div>
@@ -316,7 +350,8 @@
           <table class="spec-table">
             <tr><td>Stack</td><td>Node.js · React 19 · tRPC · Drizzle ORM · Better Auth · MySQL · Stripe</td></tr>
             <tr><td>Infra</td><td>Railway · Vercel · Cloudflare R2</td></tr>
-            <tr><td>Features</td><td>PDF/DOCX upload · AI translation (EN↔KR) · Subscription billing · Token metering · AES-256-GCM encryption</td></tr>
+            <tr class="t-en"><td>Features</td><td>PDF/DOCX upload · AI translation (EN↔KR) · Subscription billing · Token metering · AES-256-GCM encryption</td></tr>
+            <tr class="t-ko"><td>기능</td><td>PDF/DOCX 업로드 · AI 번역 (EN↔KR) · 구독 결제 · 토큰 미터링 · AES-256-GCM 암호화</td></tr>
             <tr><td>Live</td><td><a href="https://maxtrans-production.up.railway.app" target="_blank">maxtrans-production.up.railway.app</a></td></tr>
             <tr><td>GitHub</td><td><a href="https://github.com/Seeuferil/MaxTrans" target="_blank">Seeuferil/MaxTrans</a> (Private)</td></tr>
           </table>
@@ -329,7 +364,8 @@
             <div class="project-icon">🤖</div>
             <div class="project-title-block">
               <div class="project-name">Multi-Agent Framework</div>
-              <div class="project-desc">Orchestrator–subagent pipeline · 40–55% AI token cost reduction</div>
+              <div class="project-desc t-en">Orchestrator–subagent pipeline · 40–55% AI token cost reduction</div>
+              <div class="project-desc t-ko">오케스트레이터–서브에이전트 파이프라인 · AI 토큰 비용 40–55% 절감</div>
             </div>
           </div>
           <div class="project-toggle">▼</div>
@@ -337,8 +373,10 @@
         <div class="project-body">
           <table class="spec-table">
             <tr><td>Stack</td><td>Python · FastAPI · Claude API · Gemini CLI · Ollama · Railway</td></tr>
-            <tr><td>Features</td><td>Agent routing · Task decomposition · Local LLM integration · REST API</td></tr>
-            <tr><td>Result</td><td>Claude token usage reduced 40–55% via intelligent model routing</td></tr>
+            <tr class="t-en"><td>Features</td><td>Agent routing · Task decomposition · Local LLM integration · REST API</td></tr>
+            <tr class="t-ko"><td>기능</td><td>에이전트 라우팅 · 태스크 분해 · 로컬 LLM 통합 · REST API</td></tr>
+            <tr class="t-en"><td>Result</td><td>Claude token usage reduced 40–55% via intelligent model routing</td></tr>
+            <tr class="t-ko"><td>성과</td><td>지능형 모델 라우팅으로 Claude 토큰 사용량 40–55% 절감</td></tr>
             <tr><td>Live</td><td><a href="https://railway.com/project/9446c2c5-2bbd-4db4-b8c8-22e12ffa980f" target="_blank">Railway</a></td></tr>
             <tr><td>GitHub</td><td><a href="https://github.com/Seeuferil/my-agent-framework" target="_blank">Seeuferil/my-agent-framework</a> (Private)</td></tr>
           </table>
@@ -351,7 +389,8 @@
             <div class="project-icon">✍️</div>
             <div class="project-title-block">
               <div class="project-name">GemWriter</div>
-              <div class="project-desc">Slack AI writing bot — dual-LLM content generation</div>
+              <div class="project-desc t-en">Slack AI writing bot — dual-LLM content generation</div>
+              <div class="project-desc t-ko">Slack AI 글쓰기 봇 — 듀얼 LLM 콘텐츠 생성</div>
             </div>
           </div>
           <div class="project-toggle">▼</div>
@@ -359,8 +398,10 @@
         <div class="project-body">
           <table class="spec-table">
             <tr><td>Stack</td><td>Node.js · Claude API · Gemini · GitHub Actions</td></tr>
-            <tr><td>Features</td><td>Slack slash commands · Dual-LLM routing (Claude + Gemini) · Automated content drafts · CI/CD</td></tr>
-            <tr><td>Deploy</td><td>Internal Slack workspace</td></tr>
+            <tr class="t-en"><td>Features</td><td>Slack slash commands · Dual-LLM routing (Claude + Gemini) · Automated content drafts · CI/CD</td></tr>
+            <tr class="t-ko"><td>기능</td><td>Slack 슬래시 커맨드 · 듀얼 LLM 라우팅 (Claude + Gemini) · 자동 콘텐츠 초안 · CI/CD</td></tr>
+            <tr class="t-en"><td>Deploy</td><td>Internal Slack workspace</td></tr>
+            <tr class="t-ko"><td>배포</td><td>내부 Slack 워크스페이스</td></tr>
           </table>
         </div>
       </div>
@@ -371,7 +412,8 @@
             <div class="project-icon">✈️</div>
             <div class="project-title-block">
               <div class="project-name">FlightWatch <span class="badge-live">Live</span></div>
-              <div class="project-desc">Automated flight data collection & visualization dashboard</div>
+              <div class="project-desc t-en">Automated flight data collection & visualization dashboard</div>
+              <div class="project-desc t-ko">자동 항공편 데이터 수집 & 시각화 대시보드</div>
             </div>
           </div>
           <div class="project-toggle">▼</div>
@@ -379,7 +421,8 @@
         <div class="project-body">
           <table class="spec-table">
             <tr><td>Stack</td><td>Node.js · Next.js · PostgreSQL · GitHub Actions</td></tr>
-            <tr><td>Features</td><td>Scheduled data ingestion · Real-time dashboard · Automated pipeline</td></tr>
+            <tr class="t-en"><td>Features</td><td>Scheduled data ingestion · Real-time dashboard · Automated pipeline</td></tr>
+            <tr class="t-ko"><td>기능</td><td>스케줄 데이터 수집 · 실시간 대시보드 · 자동화 파이프라인</td></tr>
             <tr><td>Live</td><td><a href="https://flight-data-red.vercel.app" target="_blank">flight-data-red.vercel.app</a></td></tr>
           </table>
         </div>
@@ -391,7 +434,8 @@
             <div class="project-icon">🔗</div>
             <div class="project-title-block">
               <div class="project-name">USum <span class="badge-live">Live</span></div>
-              <div class="project-desc">URL content summarization REST API</div>
+              <div class="project-desc t-en">URL content summarization REST API</div>
+              <div class="project-desc t-ko">URL 콘텐츠 요약 REST API</div>
             </div>
           </div>
           <div class="project-toggle">▼</div>
@@ -399,7 +443,8 @@
         <div class="project-body">
           <table class="spec-table">
             <tr><td>Stack</td><td>Python · FastAPI · Gemini API · Railway</td></tr>
-            <tr><td>Features</td><td>URL fetch · AI summarization · REST API endpoints</td></tr>
+            <tr class="t-en"><td>Features</td><td>URL fetch · AI summarization · REST API endpoints</td></tr>
+            <tr class="t-ko"><td>기능</td><td>URL 가져오기 · AI 요약 · REST API 엔드포인트</td></tr>
             <tr><td>Live</td><td><a href="https://usum-production.up.railway.app" target="_blank">usum-production.up.railway.app</a></td></tr>
           </table>
         </div>
@@ -411,7 +456,8 @@
             <div class="project-icon">🚇</div>
             <div class="project-title-block">
               <div class="project-name">Subway Tracker <span class="badge-live">Live</span></div>
-              <div class="project-desc">Real-time transit data tracker with live dashboard</div>
+              <div class="project-desc t-en">Real-time transit data tracker with live dashboard</div>
+              <div class="project-desc t-ko">실시간 대중교통 데이터 추적 및 라이브 대시보드</div>
             </div>
           </div>
           <div class="project-toggle">▼</div>
@@ -419,7 +465,8 @@
         <div class="project-body">
           <table class="spec-table">
             <tr><td>Stack</td><td>Next.js · TypeScript · PostgreSQL · Railway · Vercel</td></tr>
-            <tr><td>Features</td><td>Real-time data feed · Live dashboard UI · Full-stack TypeScript</td></tr>
+            <tr class="t-en"><td>Features</td><td>Real-time data feed · Live dashboard UI · Full-stack TypeScript</td></tr>
+            <tr class="t-ko"><td>기능</td><td>실시간 데이터 피드 · 라이브 대시보드 UI · 풀스택 TypeScript</td></tr>
             <tr><td>Live</td><td><a href="https://subway-tracker-bay.vercel.app" target="_blank">subway-tracker-bay.vercel.app</a></td></tr>
           </table>
         </div>
@@ -431,7 +478,8 @@
             <div class="project-icon">📧</div>
             <div class="project-title-block">
               <div class="project-name">Email Deliverability Checker</div>
-              <div class="project-desc">Automated deliverability audit tool with Notion reporting</div>
+              <div class="project-desc t-en">Automated deliverability audit tool with Notion reporting</div>
+              <div class="project-desc t-ko">자동 이메일 전달율 감사 도구 + Notion 리포팅</div>
             </div>
           </div>
           <div class="project-toggle">▼</div>
@@ -439,7 +487,8 @@
         <div class="project-body">
           <table class="spec-table">
             <tr><td>Stack</td><td>Python · Notion API</td></tr>
-            <tr><td>Features</td><td>Automated audit pipeline · Notion integration for reporting</td></tr>
+            <tr class="t-en"><td>Features</td><td>Automated audit pipeline · Notion integration for reporting</td></tr>
+            <tr class="t-ko"><td>기능</td><td>자동 감사 파이프라인 · Notion 연동 리포팅</td></tr>
           </table>
         </div>
       </div>
@@ -448,7 +497,8 @@
   </section>
 
   <section>
-    <div class="section-label">Skills</div>
+    <div class="section-label t-en">Skills</div>
+    <div class="section-label t-ko">기술 스택</div>
     <div class="skills-grid">
       <div class="skill-row">
         <span class="skill-category">Languages</span>
@@ -486,7 +536,7 @@
   </section>
 
   <footer>
-    <span>Seeufer · 2026</span>
+    <span>HCB · 2026</span>
     <a class="link-pill" href="https://github.com/Seeuferil" target="_blank">github.com/Seeuferil</a>
   </footer>
 
@@ -495,6 +545,19 @@
   function toggle(header) {
     const project = header.closest('.project');
     project.classList.toggle('open');
+  }
+  function toggleLang() {
+    const body = document.body;
+    const btn = document.querySelector('.lang-toggle');
+    if (body.classList.contains('lang-en')) {
+      body.classList.replace('lang-en', 'lang-ko');
+      document.documentElement.lang = 'ko';
+      btn.textContent = 'EN';
+    } else {
+      body.classList.replace('lang-ko', 'lang-en');
+      document.documentElement.lang = 'en';
+      btn.textContent = 'KR';
+    }
   }
 </script>
 </body>
