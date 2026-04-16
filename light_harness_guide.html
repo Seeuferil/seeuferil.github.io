@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LightHarness — Agent Workflow Orchestrator Guide</title>
+<title>AI Development System — LightHarness Agent Orchestrator</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -477,13 +477,14 @@
 
 <!-- ══ Header ══════════════════════════════════════════════ -->
 <div class="doc-header">
-  <h1>LightHarness</h1>
-  <div class="subtitle" lang-ko>4-Tier 라우팅 기반 경량 에이전트 워크플로우 오케스트레이터</div>
-  <div class="subtitle" lang-en>Lightweight Agent Workflow Orchestrator on 4-Tier Routing</div>
+  <h1 lang-ko>AI 개발 시스템 — LightHarness</h1>
+  <h1 lang-en>AI Development System — LightHarness</h1>
+  <div class="subtitle" lang-ko>4-Tier 라우팅 + 모듈형 스크립트 기반 에이전트 오케스트레이터</div>
+  <div class="subtitle" lang-en>Agent Orchestrator on 4-Tier Routing + Modular Script Layer</div>
   <div class="meta">
     <span class="meta-tag">2026-04-15</span>
-    <span class="meta-tag" lang-ko>Queue 머지 · 13 감사 카테고리 · 재귀 디버그</span>
-    <span class="meta-tag" lang-en>Queue Merge · 13 Audit Categories · Recursive Debug</span>
+    <span class="meta-tag" lang-ko>Queue 머지 · 13 감사 카테고리 · 모듈형 스크립트 레이어</span>
+    <span class="meta-tag" lang-en>Queue Merge · 13 Audit Categories · Modular Script Layer</span>
     <span class="meta-tag" lang-ko>Claude Pro 기반</span>
     <span class="meta-tag" lang-en>Built for Claude Pro</span>
   </div>
@@ -494,8 +495,8 @@
   <a href="agentic_ai_intro.html" lang-en>Agentic AI Concepts</a>
   <a href="mcp_ecosystem.html" lang-ko>MCP 생태계</a>
   <a href="mcp_ecosystem.html" lang-en>MCP Ecosystem</a>
-  <a href="light_harness_guide.html" class="current" lang-ko>LightHarness 운영 (현재)</a>
-  <a href="light_harness_guide.html" class="current" lang-en>LightHarness Operations (current)</a>
+  <a href="light_harness_guide.html" class="current" lang-ko>AI 개발 시스템 (현재)</a>
+  <a href="light_harness_guide.html" class="current" lang-en>AI Dev System (current)</a>
 </div>
 
 <!-- ══ 1. Overview ══════════════════════════════════════════ -->
@@ -503,8 +504,8 @@
 <h2 lang-en>1. Overview</h2>
 <p lang-ko>LightHarness는 Claude Pro 안에서 소·중규모 작업을 효율적으로 처리하는 <strong>경량 에이전트 팀 프레임워크</strong>다. 4-Tier 라우팅 위의 워크플로우 오케스트레이터로, 슬래시 커맨드로 동작한다.</p>
 <p lang-en>LightHarness is a <strong>lightweight agent team framework</strong> for efficiently handling small-to-medium tasks within Claude Pro. It acts as a workflow orchestrator on top of 4-Tier routing, operated via slash commands.</p>
-<p lang-ko>핵심 원칙: <strong>cloud(Claude) 사용을 최소화</strong>하고 판단·조율만 맡기며, 실작업은 Tier 2~4에 위임한다. cloud 스텝은 세션당 ≤10을 목표로 한다.</p>
-<p lang-en>Core principle: <strong>minimize direct cloud (Claude) usage</strong> — only judgment and coordination — while delegating real work to Tier 2–4. Target: ≤10 cloud steps per session.</p>
+<p lang-ko>핵심 원칙: <strong>cloud(Claude) 사용을 최소화</strong>하고 판단·조율만 맡기며, 실작업은 Tier 2~4에 위임한다. 기계적 작업(git, 파일 I/O, YAML, 볼트 동기화)은 <strong>Python 모듈</strong>이 병렬로 처리한다.</p>
+<p lang-en>Core principle: <strong>minimize direct cloud (Claude) usage</strong> — only judgment and coordination. Mechanical work (git, file I/O, YAML, vault sync) is handled by <strong>Python modules</strong> running in parallel.</p>
 
 <!-- ══ 2. 4-Tier Architecture ══════════════════════════════ -->
 <h2 lang-ko>2. 4-Tier 구조</h2>
@@ -637,6 +638,57 @@
   <p lang-en><strong>Local agent prompts must be in English.</strong> Optimizes local LLM output quality. Lint RULE-2 blocks violations.</p>
 </div>
 
+<!-- ══ 2b. Modular Script Layer ══════════════════════════ -->
+<h2 lang-ko>2b. 모듈형 스크립트 레이어</h2>
+<h2 lang-en>2b. Modular Script Layer</h2>
+
+<p lang-ko>기계적 작업(git, 파일 I/O, YAML 파싱, 볼트 동기화)은 <strong>Python 모듈</strong>이 처리한다. AI는 판단이 필요한 경우에만 개입. 모듈은 <code>ThreadPoolExecutor</code>로 병렬 실행된다.</p>
+<p lang-en>Mechanical work (git, file I/O, YAML parsing, vault sync) is handled by <strong>Python modules</strong>. AI only intervenes when judgment is needed. Modules run in parallel via <code>ThreadPoolExecutor</code>.</p>
+
+<div class="table-wrap"><table>
+  <thead><tr>
+    <th>Module</th>
+    <th lang-ko>역할</th><th lang-en>Role</th>
+    <th lang-ko>사용 스킬</th><th lang-en>Used By</th>
+  </tr></thead>
+  <tbody>
+    <tr><td><code>lib/paths.py</code></td>
+      <td lang-ko>경로 상수, 날짜 헬퍼</td>
+      <td lang-en>Path constants, date helpers</td>
+      <td lang-ko>전체</td><td lang-en>All</td></tr>
+    <tr><td><code>lib/git_ops.py</code></td>
+      <td lang-ko>status, diff, commit, push, 병렬 repo 스캔</td>
+      <td lang-en>status, diff, commit, push, parallel repo scan</td>
+      <td>vault-sync, gsync, rsml</td></tr>
+    <tr><td><code>lib/vault_ops.py</code></td>
+      <td lang-ko>index.yaml R/W, README 패치, ���임라인, 미러</td>
+      <td lang-en>index.yaml R/W, README patch, timeline, mirror</td>
+      <td>vault-sync, gsync</td></tr>
+    <tr><td><code>lib/todo_ops.py</code></td>
+      <td lang-ko>[x] ���지, 완료 항목 이동, 날짜 섹션</td>
+      <td lang-en>[x] detection, move completed items, date sections</td>
+      <td>wtodo, rsml</td></tr>
+    <tr><td><code>lib/yaml_ops.py</code></td>
+      <td lang-ko>Blueprint YAML 파싱, 큐 머지 그�� 감지</td>
+      <td lang-en>Blueprint YAML parsing, merge group detection</td>
+      <td>harness-run</td></tr>
+    <tr><td><code>lib/inventory.py</code></td>
+      <td lang-ko>Git·스킬·스크립트·ALoop·훅 병렬 스캔</td>
+      <td lang-en>Parallel scan: Git, skills, scripts, ALoop, hooks</td>
+      <td>vault-sync</td></tr>
+    <tr><td><code>lib/resume_log.py</code></td>
+      <td lang-ko>템플릿 생성, 포인터 갱신, 자��� 넘버링</td>
+      <td lang-en>Template gen, pointer update, auto-numbering</td>
+      <td>rsml</td></tr>
+  </tbody>
+</table></div>
+
+<div class="callout info">
+  <span class="icon">&#128161;</span>
+  <p lang-ko><strong>Script-first 원칙:</strong> git 명령, 파일 복사, 날짜 비���, YAML 파싱에 AI를 사용하지 않는다. 17개 repo 스캔이 순차 1.5초 → 병렬 0.3초. index.yaml��� 1회 읽기 → 인메모리 패치 → 1회 쓰기.</p>
+  <p lang-en><strong>Script-first principle:</strong> No AI for git commands, file copy, date comparison, YAML parsing. 17-repo scan: sequential 1.5s &rarr; parallel 0.3s. index.yaml: 1 read &rarr; in-memory patch &rarr; 1 write.</p>
+</div>
+
 <!-- ══ 3. Slash Commands ══════════════════════════════════ -->
 <h2 lang-ko>3. 슬래시 커맨드</h2>
 <h2 lang-en>3. Slash Commands</h2>
@@ -695,11 +747,14 @@
       <td lang-ko>세션 종료: 커밋 + TODO 정리 + resume-log 저장 + vault 동기화</td>
       <td lang-en>Session end: commit + TODO cleanup + resume-log save + vault sync</td></tr>
     <tr><td><code>/gsync</code></td>
-      <td lang-ko>프로젝트 커밋 + vault 동기화 (세션 중간)</td>
-      <td lang-en>Project commit + vault sync (mid-session)</td></tr>
+      <td lang-ko>프로젝트 커밋 + vault 동기화 (세션 중간) <span class="badge ok">script</span></td>
+      <td lang-en>Project commit + vault sync (mid-session) <span class="badge ok">script</span></td></tr>
+    <tr><td><code>/vault-sync</code></td>
+      <td lang-ko>전체 로컬→볼트 동기화: 17 repo + 스킬 + 스크립트 + 미러 push <span class="badge ok">script</span></td>
+      <td lang-en>Full local→vault sync: 17 repos + skills + scripts + mirror push <span class="badge ok">script</span></td></tr>
     <tr><td><code>/wtodo</code></td>
-      <td lang-ko>TODO 갱신 + 완료 항목 아카이브 이동</td>
-      <td lang-en>Update TODO + archive completed items</td></tr>
+      <td lang-ko>TODO 갱신 + 완료 항목 아카이브 이동 <span class="badge ok">script</span></td>
+      <td lang-en>Update TODO + archive completed items <span class="badge ok">script</span></td></tr>
   </tbody>
 </table></div>
 
