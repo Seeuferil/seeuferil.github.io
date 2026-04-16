@@ -482,9 +482,9 @@
   <div class="subtitle" lang-ko>4-Tier 라우팅 + 모듈형 스크립트 기반 에이전트 오케스트레이터</div>
   <div class="subtitle" lang-en>Agent Orchestrator on 4-Tier Routing + Modular Script Layer</div>
   <div class="meta">
-    <span class="meta-tag">2026-04-15</span>
-    <span class="meta-tag" lang-ko>Queue 머지 · 13 감사 카테고리 · 모듈형 스크립트 레이어</span>
-    <span class="meta-tag" lang-en>Queue Merge · 13 Audit Categories · Modular Script Layer</span>
+    <span class="meta-tag">2026-04-16</span>
+    <span class="meta-tag" lang-ko>Queue 머지 · 14 감사 카테고리 · 모듈형 스크립트 레이어</span>
+    <span class="meta-tag" lang-en>Queue Merge · 14 Audit Categories · Modular Script Layer</span>
     <span class="meta-tag" lang-ko>Claude Pro 기반</span>
     <span class="meta-tag" lang-en>Built for Claude Pro</span>
   </div>
@@ -661,15 +661,15 @@
       <td lang-en>status, diff, commit, push, parallel repo scan</td>
       <td>vault-sync, gsync, rsml</td></tr>
     <tr><td><code>lib/vault_ops.py</code></td>
-      <td lang-ko>index.yaml R/W, README 패치, ���임라인, 미러</td>
+      <td lang-ko>index.yaml R/W, README 패치, 타임라인, 미러</td>
       <td lang-en>index.yaml R/W, README patch, timeline, mirror</td>
       <td>vault-sync, gsync</td></tr>
     <tr><td><code>lib/todo_ops.py</code></td>
-      <td lang-ko>[x] ���지, 완료 항목 이동, 날짜 섹션</td>
+      <td lang-ko>[x] 감지, 완료 항목 이동, 날짜 섹션</td>
       <td lang-en>[x] detection, move completed items, date sections</td>
       <td>wtodo, rsml</td></tr>
     <tr><td><code>lib/yaml_ops.py</code></td>
-      <td lang-ko>Blueprint YAML 파싱, 큐 머지 그�� 감지</td>
+      <td lang-ko>Blueprint YAML 파싱, 큐 머지 그룹 감지</td>
       <td lang-en>Blueprint YAML parsing, merge group detection</td>
       <td>harness-run</td></tr>
     <tr><td><code>lib/inventory.py</code></td>
@@ -677,7 +677,7 @@
       <td lang-en>Parallel scan: Git, skills, scripts, ALoop, hooks</td>
       <td>vault-sync</td></tr>
     <tr><td><code>lib/resume_log.py</code></td>
-      <td lang-ko>템플릿 생성, 포인터 갱신, 자��� 넘버링</td>
+      <td lang-ko>템플릿 생성, 포인터 갱신, 자동 넘버링</td>
       <td lang-en>Template gen, pointer update, auto-numbering</td>
       <td>rsml</td></tr>
   </tbody>
@@ -685,7 +685,7 @@
 
 <div class="callout info">
   <span class="icon">&#128161;</span>
-  <p lang-ko><strong>Script-first 원칙:</strong> git 명령, 파일 복사, 날짜 비���, YAML 파싱에 AI를 사용하지 않는다. 17개 repo 스캔이 순차 1.5초 → 병렬 0.3초. index.yaml��� 1회 읽기 → 인메모리 패치 → 1회 쓰기.</p>
+  <p lang-ko><strong>Script-first 원칙:</strong> git 명령, 파일 복사, 날짜 비교, YAML 파싱에 AI를 사용하지 않는다. 17개 repo 스캔이 순차 1.5초 → 병렬 0.3초. index.yaml은 1회 읽기 → 인메모리 패치 → 1회 쓰기.</p>
   <p lang-en><strong>Script-first principle:</strong> No AI for git commands, file copy, date comparison, YAML parsing. 17-repo scan: sequential 1.5s &rarr; parallel 0.3s. index.yaml: 1 read &rarr; in-memory patch &rarr; 1 write.</p>
 </div>
 
@@ -715,9 +715,9 @@
     <tr><td><code>/harness-debug [path]</code></td>
       <td lang-ko>CRITICAL=0이 될 때까지 harness-check 반복 (최대 5라운드)</td>
       <td lang-en>Repeats harness-check until CRITICAL=0 (max 5 rounds)</td></tr>
-    <tr><td><code>/inspect [target]</code></td>
-      <td lang-ko>읽기 전용 13카테고리 감사. CRITICAL 발견 시 autodebug 자동 연계</td>
-      <td lang-en>Read-only 13-category audit. Auto-launches autodebug on CRITICAL.</td></tr>
+    <tr><td><code>/inspect [target] [--scope diff]</code></td>
+      <td lang-ko>읽기 전용 14카테고리 감사. <code>--scope diff</code>로 변경분만 감사 (CAT-14 Reuse 포함). <code>--help</code>로 스킬 비교표 출력</td>
+      <td lang-en>Read-only 14-category audit. <code>--scope diff</code> for changed files only (incl. CAT-14 Reuse). <code>--help</code> prints skill comparison</td></tr>
     <tr><td><code>/autodebug [target]</code></td>
       <td lang-ko>런타임 디버그 루프: Audit → Fix → Deploy → Verify (백그라운드, 최대 5라운드)</td>
       <td lang-en>Runtime debug loop: Audit → Fix → Deploy → Verify (background, max 5 rounds)</td></tr>
@@ -984,13 +984,13 @@
 <p lang-ko>harness-check를 CRITICAL이 0이 될 때까지 반복한다. 라운드당 cloud 1회, 최대 5라운드 = cloud 5회 상한.</p>
 <p lang-en>Repeats harness-check until CRITICAL count reaches 0. 1 cloud step per round, max 5 rounds = 5 cloud steps cap.</p>
 
-<h3 lang-ko>inspect — 13카테고리 읽기 전용 감사</h3>
-<h3 lang-en>inspect — 13-Category Read-Only Audit</h3>
-<p lang-ko>harness-check의 8카테고리에 5카테고리를 추가한 확장 감사. 코드를 수정하지 않고 보고서만 출력한다. CRITICAL 발견 시 <code>/autodebug</code>를 백그라운드로 자동 실행.</p>
-<p lang-en>Extended audit adding 5 categories to harness-check's 8. Read-only — outputs report only. Auto-launches <code>/autodebug</code> in background on CRITICAL findings.</p>
+<h3 lang-ko>inspect — 14카테고리 읽기 전용 감사</h3>
+<h3 lang-en>inspect — 14-Category Read-Only Audit</h3>
+<p lang-ko>harness-check의 8카테고리에 6카테고리를 추가한 확장 감사. 코드를 수정하지 않고 보고서만 출력한다. CRITICAL 발견 시 <code>/autodebug</code>를 백그라운드로 자동 실행. <code>--scope diff</code>로 git 변경분만 감사하면 CAT-14(Reuse)도 자동 활성화. <code>--help</code>로 전체 품질 스킬 비교표 출력.</p>
+<p lang-en>Extended audit adding 6 categories to harness-check's 8. Read-only — outputs report only. Auto-launches <code>/autodebug</code> in background on CRITICAL findings. Use <code>--scope diff</code> to audit only git changes (auto-enables CAT-14 Reuse). <code>--help</code> prints a comparison of all quality skills.</p>
 
-<h3 lang-ko>13개 감사 카테고리</h3>
-<h3 lang-en>13 Audit Categories</h3>
+<h3 lang-ko>14개 감사 카테고리</h3>
+<h3 lang-en>14 Audit Categories</h3>
 <div class="cat-grid">
   <div class="cat-item cat-logic">
     <div class="cat-num">CAT-1</div>
@@ -1096,6 +1096,14 @@
       <div class="cat-ex" lang-en>Missing logging, monitoring blind spots</div>
     </div>
   </div>
+  <div class="cat-item cat-qual">
+    <div class="cat-num">CAT-14 <span class="badge mid">diff</span></div>
+    <div class="cat-content">
+      <div class="cat-title">Reuse</div>
+      <div class="cat-ex" lang-ko>기존 유틸 중복, 헬퍼 미활용 (<code>--scope diff</code> 전용)</div>
+      <div class="cat-ex" lang-en>Duplicates existing util, unused helpers (<code>--scope diff</code> only)</div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ 7b. autodebug ═════════════════════════════════════ -->
@@ -1141,8 +1149,8 @@
 
 <div class="callout warn">
   <span class="icon">&#9888;&#65039;</span>
-  <p lang-ko><strong>최대 5라운드.</strong> 3라운드 이내 수렴이 일반적. 라운드당 cloud 1회 = 최대 cloud 5회. 실패 시 사용자에게 보고.</p>
-  <p lang-en><strong>Max 5 rounds.</strong> Typically converges within 3. 1 cloud step/round = max 5 cloud steps. Reports to user on failure.</p>
+  <p lang-ko><strong>최대 5라운드.</strong> 3라운드 이내 수렴이 일반적. 라운드당 cloud 1회 = 최대 cloud 5회. 완료 후 수정 파일이 많으면 <code>/inspect --scope diff</code> 제안, 구조적 문제면 <code>/ci</code> 제안.</p>
+  <p lang-en><strong>Max 5 rounds.</strong> Typically converges within 3. 1 cloud step/round = max 5 cloud steps. On completion, suggests <code>/inspect --scope diff</code> if many files changed, or <code>/ci</code> for structural issues.</p>
 </div>
 
 <!-- ══ 7c. CI ════════════════════════════════════════════ -->
@@ -1218,8 +1226,8 @@
 
 <div class="callout info">
   <span class="icon">&#128161;</span>
-  <p lang-ko><strong>/ci vs /inspect:</strong> <code>/inspect</code>는 <em>버그</em>를 찾고, <code>/ci</code>는 <em>개선점</em>을 찾는다. 버그가 없어도 코드는 더 좋아질 수 있다. <code>/ci</code>의 철학: "모든 줄은 자신의 존재를 증명해야 한다."</p>
-  <p lang-en><strong>/ci vs /inspect:</strong> <code>/inspect</code> finds <em>bugs</em>; <code>/ci</code> finds <em>improvements</em>. Code can get better even without bugs. <code>/ci</code>'s philosophy: "Every line must earn its place."</p>
+  <p lang-ko><strong>/ci vs /inspect:</strong> <code>/inspect</code>는 <em>버그</em>를, <code>/ci</code>는 <em>개선점</em>을 찾는다. 버그가 없어도 코드는 더 좋아질 수 있다. <code>/ci</code>의 철학: "모든 줄은 자신의 존재를 증명해야 한다." 최근 변경분에 이슈가 집중되면 <code>/inspect --scope diff</code>를 제안한다.</p>
+  <p lang-en><strong>/ci vs /inspect:</strong> <code>/inspect</code> finds <em>bugs</em>; <code>/ci</code> finds <em>improvements</em>. Code can get better even without bugs. <code>/ci</code>'s philosophy: "Every line must earn its place." Suggests <code>/inspect --scope diff</code> when issues concentrate in recent changes.</p>
 </div>
 
 <!-- ══ 8. Blueprint Lint ══════════════════════════════════ -->
